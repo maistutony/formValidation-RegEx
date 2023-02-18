@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <div class="emailWarning"></div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <div class="passwordWarning"></div>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age"><br><br>
+
+        <label for="mobile">Mobile:</label>
+        <input type="number" id="mobile" name="mobile"><br><br>
+        <div class="mobileWarning"></div>
+
+        <input type="submit" value="Submit" onclick="validate(event)">
+    </form>
+    <script>
+        let isValidemail = false;
+        let isValidPassword = false;
+        let isValidmobile = false;
+        const password = document.getElementById("password")
+        const email = document.getElementById("email")
+        const mobile = document.getElementById("mobile")
+        password.addEventListener("input", validatePassword)
+        email.addEventListener("input", validateEmail)
+        mobile.addEventListener("input", validateMobile)
+        function validate(event) {
+            event.preventDefault();
+            const name = document.querySelector("#name").value;
+
+            if (isValidPassword && isValidemail && isValidmobile) {
+                console.log("you may login")
+            } else {
+                console.log("enter valid details")
+            }
+        }
+
+        function validatePassword(event) {
+            const passwordWarning = document.querySelector(".passwordWarning");
+            let password = event.target.value;
+            /*
+            ^ matches the start of the string
+          (?=.*[A-Z]) is a positive lookahead that requires the string to contain at least one uppercase letter
+            (?=.*[a-z]) is a positive lookahead that requires the string to contain at least one lowercase letter
+             (?=.*\d) is a positive lookahead that requires the string to contain at least one number
+             .{8,} matches any character (except newline) at least 8 times
+                  $ matches the end of the string
+                  
+                  (?=.*[!@#$%^&*()_+{}|[\]\\:;'<>,.?/]) is a positive lookahead that 
+                  requires the string to contain at least one special character.
+            */
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+{}|[\]\\:;'<>,.?/]).{8,}$/
+            if (passwordRegex.test(password)) {
+                passwordWarning.textContent = ""
+                isValidPassword = true;
+            } else {
+                passwordWarning.textContent = "8 character long,include a upper and lower case and a special character";
+            }
+        }
+        function validateEmail(event) {
+            const emailWarning = document.querySelector(".emailWarning");
+            let email = event.target.value;
+            /*
+      The local part (before the @ symbol) can contain any combination of
+       letters, numbers, and the following characters: ._%+-
+      The domain part (after the @ symbol) can contain any combination of 
+      letters, numbers, and hyphens, as well as a period (.) followed by
+       at least three letters (e.g. .com, .net, etc.)
+           */
+            var emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{3,})$/;
+            if (emailRegex.test(email)) {
+                emailWarning.textContent = ""
+                isValidemail = true;
+            } else {
+                emailWarning.textContent = "Enter a valid email"
+            }
+        }
+        function validateMobile(event) {
+            const mobileWarning = document.querySelector(".mobileWarning");
+            let mobile = event.target.value;
+            /*
+            An optional plus (+) sign at the beginning of the number
+             1-3 digits for the country code (optional)
+             Three digits for the area code (optional)
+              Three digits for the first part of the phone number
+               Four digits for the second part of the phone number
+            */
+            var mobileRegex = /^\+?254[- ]?\d{3}[- ]?\d{3}[- ]?\d{3}$/;
+            if (mobileRegex.test(mobile)) {
+                mobileWarning.textContent = ""
+                isValidmobile = true;
+            } else {
+                mobileWarning.textContent = "Enter a valid phone number starting with + coutry code"
+            }
+        }
+    </script>
+</body>
+
+</html>

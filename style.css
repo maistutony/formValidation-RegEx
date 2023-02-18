@@ -1,0 +1,11 @@
+form{
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.passwordWarning, .emailWarning, .mobileWarning{
+    color:red;
+}
